@@ -1,0 +1,12 @@
+*.ncb
+*.user
+*.suo
+conf/zoo.cfg
+build/
+src/c/Debug
+src/c/Release
+src/c/x64
+src/c/generated/
+src/contrib/zkpython/src/c/zookeeper/Debug/
+src/contrib/zkpython/src/c/zookeeper/Release/
+src/contrib/zkpython/src/c/zookeeper/x64/

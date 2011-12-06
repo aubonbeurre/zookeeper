@@ -35,9 +35,20 @@ struct buffer {
     char *buff;
 };
 
-void deallocate_String(char **s);
-void deallocate_Buffer(struct buffer *b);
-void deallocate_vector(void *d);
+// on cygwin we should take care of exporting/importing symbols properly 
+#ifdef DLL_EXPORT
+#    define ZOOAPI __declspec(dllexport)
+#else
+#  if (defined(__CYGWIN__) || defined(WIN32)) && !defined(USE_STATIC_LIB)
+#    define ZOOAPI __declspec(dllimport)
+#  else
+#    define ZOOAPI
+#  endif
+#endif
+
+ZOOAPI void deallocate_String(char **s);
+ZOOAPI void deallocate_Buffer(struct buffer *b);
+ZOOAPI void deallocate_vector(void *d);
 struct iarchive {
     int (*start_record)(struct iarchive *ia, const char *tag);
     int (*end_record)(struct iarchive *ia, const char *tag);
@@ -66,12 +77,12 @@ struct oarchive {
     void *priv;
 };
 
-struct oarchive *create_buffer_oarchive(void);
-void close_buffer_oarchive(struct oarchive **oa, int free_buffer);
-struct iarchive *create_buffer_iarchive(char *buffer, int len);
-void close_buffer_iarchive(struct iarchive **ia);
-char *get_buffer(struct oarchive *);
-int get_buffer_len(struct oarchive *);
+ZOOAPI struct oarchive *create_buffer_oarchive(void);
+ZOOAPI void close_buffer_oarchive(struct oarchive **oa, int free_buffer);
+ZOOAPI struct iarchive *create_buffer_iarchive(char *buffer, int len);
+ZOOAPI void close_buffer_iarchive(struct iarchive **ia);
+ZOOAPI char *get_buffer(struct oarchive *);
+ZOOAPI int get_buffer_len(struct oarchive *);
 
 int64_t htonll(int64_t v);
 

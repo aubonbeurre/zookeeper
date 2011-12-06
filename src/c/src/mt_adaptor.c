@@ -490,7 +490,7 @@ int32_t fetch_and_add(volatile int32_t* operand, int incr)
          : "0"(incr)
          : "memory");
    return result;
-#else
+#elif 0
     volatile int32_t result;
     _asm
     {
@@ -502,6 +502,8 @@ int32_t fetch_and_add(volatile int32_t* operand, int incr)
         mov result, ecx; // result = ebx;        
      }
      return result;    
+#else
+	return InterlockedExchangeAdd(operand, incr) + incr;
 #endif
 }
 
