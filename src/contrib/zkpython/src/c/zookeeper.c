@@ -16,7 +16,18 @@
  * limitations under the License.
  */
 
+#ifdef _DEBUG
+#	define OLD_DEBUG _DEBUG
+#	undef _DEBUG
+#endif
+
 #include <Python.h>
+
+#ifdef OLD_DEBUG
+#	define _DEBUG OLD_DEBUG
+#endif
+
+
 #include <zookeeper.h>
 #include <assert.h>
   
@@ -135,8 +146,8 @@ static int max_zhandles = 0;
 
 /* Allocates an initial zhandle and watcher array */
 int init_zhandles(int num) {
-  zhandles = malloc(sizeof(zhandle_t*)*num);
-  watchers = malloc(sizeof(pywatcher_t*)*num);
+  zhandles = (zhandle_t**)malloc(sizeof(zhandle_t*)*num);
+  watchers = (pywatcher_t**)malloc(sizeof(pywatcher_t*)*num);
   if (zhandles == NULL || watchers == NULL) {
     return 0;
   }
@@ -161,7 +172,7 @@ int resize_zhandles(void) {
     return 0;
   }
   max_zhandles *= 2;
-  zhandles = malloc(sizeof(zhandle_t*)*max_zhandles);
+  zhandles = (zhandle_t**)malloc(sizeof(zhandle_t*)*max_zhandles);
   if (zhandles == NULL) {
     PyErr_SetString(PyExc_MemoryError, "malloc for new zhandles failed");
     return 0;
@@ -169,7 +180,7 @@ int resize_zhandles(void) {
   memset(zhandles, 0, sizeof(zhandle_t*)*max_zhandles);
   memcpy(zhandles, tmp, sizeof(zhandle_t*)*max_zhandles/2);
 
-  watchers = malloc(sizeof(pywatcher_t*)*max_zhandles);
+  watchers = (pywatcher_t**)malloc(sizeof(pywatcher_t*)*max_zhandles);
   if (watchers == NULL) {
     PyErr_SetString(PyExc_MemoryError, "malloc for new watchers failed");
     return 0;
@@ -1058,7 +1069,7 @@ static PyObject *pyzoo_exists(PyObject *self, PyObject *args)
       return NULL;
     }
   }
-  int err = zoo_wexists(zh,  path, callback, pw, &stat);
+  int err = zoo_wexists(zh,  path, (watcher_fn)callback, pw, &stat);
   if (err != ZOK && err != ZNONODE) {
     PyErr_SetString(err_to_exception(err), zerror(err));
     free_pywatcher(pw);
@@ -1093,7 +1104,7 @@ static PyObject *pyzoo_get_children(PyObject *self, PyObject *args)
     }
   }
   int err = zoo_wget_children(zhandles[zkhid], path, 
-                              callback,
+                              (watcher_fn)callback,
                               pw, &strings );
 
   if (err != ZOK) {
@@ -1182,7 +1193,7 @@ static PyObject *pyzoo_get(PyObject *self, PyObject *args)
       return NULL;
     }
   }
-  buffer = malloc(sizeof(char)*buffer_len);
+  buffer = (char*)malloc(sizeof(char)*buffer_len);
   if (buffer == NULL) {
     free_pywatcher(pw);
     PyErr_SetString(PyExc_MemoryError, "buffer could not be allocated in pyzoo_get");
@@ -1516,9 +1527,8 @@ PyMODINIT_FUNC initzookeeper(void) {
   PyModule_AddObject(module, "ZooKeeperException", ZooKeeperException);
   Py_INCREF(ZooKeeperException);
 
-  int size = 10;
-  char version_str[size];
-  snprintf(version_str, size, "%i.%i.%i", ZOO_MAJOR_VERSION, ZOO_MINOR_VERSION, ZOO_PATCH_VERSION);
+  char version_str[10];
+  snprintf(version_str, sizeof(version_str), "%i.%i.%i", ZOO_MAJOR_VERSION, ZOO_MINOR_VERSION, ZOO_PATCH_VERSION);
 
   PyModule_AddStringConstant(module, "__version__", version_str);
 
