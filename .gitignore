@@ -8,3 +8,13 @@ src/c/generated/
 src/java/generated/
 src/java/lib/ant-eclipse-*
 src/java/lib/ivy-*
+*.ncb
+*.user
+*.suo
+conf/zoo.cfg
+src/c/Debug
+src/c/Release
+src/c/x64
+src/contrib/zkpython/src/c/zookeeper/Debug/
+src/contrib/zkpython/src/c/zookeeper/Release/
+src/contrib/zkpython/src/c/zookeeper/x64/
