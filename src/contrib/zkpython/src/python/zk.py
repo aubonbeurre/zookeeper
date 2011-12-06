@@ -14,10 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import sys, os
+
+thisfile = os.path.normpath(os.path.abspath(__file__))
+topsrc = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(thisfile)))))
+DEBUGDIR = os.path.join(topsrc, "c", "x64", "Debug")
+os.environ['PATH'] = DEBUGDIR + ';' + os.environ['PATH']
+PYDEBUGDIR = os.path.join(topsrc, "contrib", "zkpython", "src", "c", "zookeeper", "x64", "Debug")
+sys.path.insert(0, PYDEBUGDIR)
+
 import zookeeper, time, threading
 
-f = open("out.log","w")
-zookeeper.set_log_stream(f)
+#f = open("out.log","w")
+#zookeeper.set_log_stream(f)
 
 connected = False
 conn_cv = threading.Condition( )
@@ -32,7 +41,7 @@ def my_connection_watcher(handle,type,state,path):
     
 conn_cv.acquire()
 print "Connecting to localhost:2181 -- "
-handle = zookeeper.init("localhost:2181", my_connection_watcher, 10000, 0)
+handle = zookeeper.init("localhost:2181", my_connection_watcher)
 while not connected:
     conn_cv.wait()
 conn_cv.release()
