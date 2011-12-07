@@ -503,7 +503,7 @@ int32_t fetch_and_add(volatile int32_t* operand, int incr)
      }
      return result;    
 #else
-	return InterlockedExchangeAdd(operand, incr) + incr;
+	return InterlockedExchangeAdd(operand, incr);
 #endif
 }
 
