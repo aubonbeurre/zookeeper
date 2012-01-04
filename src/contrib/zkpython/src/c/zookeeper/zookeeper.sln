@@ -7,6 +7,10 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
+		Python26|Win32 = Python26|Win32
+		Python26|x64 = Python26|x64
+		Python26Rel|Win32 = Python26Rel|Win32
+		Python26Rel|x64 = Python26Rel|x64
 		Release|Win32 = Release|Win32
 		Release|x64 = Release|x64
 	EndGlobalSection
@@ -15,6 +19,14 @@ Global
 		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Debug|Win32.Build.0 = Debug|Win32
 		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Debug|x64.ActiveCfg = Debug|x64
 		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Debug|x64.Build.0 = Debug|x64
+		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Python26|Win32.ActiveCfg = Python26|Win32
+		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Python26|Win32.Build.0 = Python26|Win32
+		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Python26|x64.ActiveCfg = Python26|x64
+		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Python26|x64.Build.0 = Python26|x64
+		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Python26Rel|Win32.ActiveCfg = Python26Rel|Win32
+		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Python26Rel|Win32.Build.0 = Python26Rel|Win32
+		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Python26Rel|x64.ActiveCfg = Python26Rel|x64
+		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Python26Rel|x64.Build.0 = Python26Rel|x64
 		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Release|Win32.ActiveCfg = Release|Win32
 		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Release|Win32.Build.0 = Release|Win32
 		{ED866930-85FD-4461-904A-D6FCB8CBBE9C}.Release|x64.ActiveCfg = Release|x64
